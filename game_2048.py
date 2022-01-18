@@ -49,7 +49,6 @@ def move(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"]):
     global SCORE
     updatedSquares = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
     if(direction == "UP"):
-        print("UP")
         # swipe and merge all squares to up
         for _ in range(3):
             for i in range(1, 4):
@@ -72,7 +71,6 @@ def move(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"]):
                         updatedSquares[i][j] = 1
 
     elif(direction == "DOWN"):
-        print("DOWN")
         # swipe and merge all squares to up
         for _ in range(3):
             for i in reversed(range(0, 3)):
@@ -95,7 +93,6 @@ def move(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"]):
                         updatedSquares[i][j] = 1
 
     elif(direction == "LEFT"):
-        print("LEFT")
         # swipe and merge all squares to up
         for _ in range(3):
             for i in range(1, 4):
@@ -118,7 +115,6 @@ def move(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"]):
                         updatedSquares[i][j] = 1
 
     elif(direction == "RIGHT"):
-        print("RIGHT")
         # swipe and merge all squares to up
         for _ in range(3):
             for i in reversed(range(0, 3)):
