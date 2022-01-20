@@ -1,3 +1,4 @@
+import copy
 from random import randint
 from typing import Literal
 
@@ -11,11 +12,11 @@ def initBoard():
     BOARD = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 
     # Add random two numbers
-    placeRandomSquare()
-    placeRandomSquare()
+    placeRandomSquare(BOARD)
+    placeRandomSquare(BOARD)
 
 
-def placeRandomSquare():
+def placeRandomSquare(BOARD):
     emptySquares = []
     for i in range(0, 4):
         for j in range(0, 4):
@@ -71,7 +72,7 @@ def move(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"]):
                         updatedSquares[i][j] = 1
 
     elif(direction == "DOWN"):
-        # swipe and merge all squares to up
+        # swipe and merge all squares to down
         for _ in range(3):
             for i in reversed(range(0, 3)):
                 for j in range(0, 4):
@@ -79,7 +80,7 @@ def move(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"]):
                     if(BOARD[i][j] == 0):
                         continue
 
-                    # swipe to up if upper square is empty
+                    # swipe to down if upper square is empty
                     if(BOARD[i+1][j] == 0):
                         BOARD[i+1][j] = BOARD[i][j]
                         BOARD[i][j] = 0
@@ -93,7 +94,7 @@ def move(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"]):
                         updatedSquares[i][j] = 1
 
     elif(direction == "LEFT"):
-        # swipe and merge all squares to up
+        # swipe and merge all squares to left
         for _ in range(3):
             for i in range(1, 4):
                 for j in range(0, 4):
@@ -101,21 +102,21 @@ def move(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"]):
                     if(BOARD[j][i] == 0):
                         continue
 
-                    # swipe to up if upper square is empty
+                    # swipe to left if upper square is empty
                     if(BOARD[j][i-1] == 0):
                         BOARD[j][i-1] = BOARD[j][i]
                         BOARD[j][i] = 0
 
                     # merge same values
-                    if(not (BOARD[j][i-1] == 0) and BOARD[j][i-1] == BOARD[j][i] and updatedSquares[j][i-1] == 0 and updatedSquares[i][j] == 0):
+                    if(not (BOARD[j][i-1] == 0) and BOARD[j][i-1] == BOARD[j][i] and updatedSquares[j][i-1] == 0 and updatedSquares[j][i] == 0):
                         BOARD[j][i-1] = BOARD[j][i-1] * 2
                         SCORE = SCORE + BOARD[j][i-1]
                         BOARD[j][i] = 0
                         updatedSquares[j][i-1] = 1
-                        updatedSquares[i][j] = 1
+                        updatedSquares[j][i] = 1
 
     elif(direction == "RIGHT"):
-        # swipe and merge all squares to up
+        # swipe and merge all squares to right
         for _ in range(3):
             for i in reversed(range(0, 3)):
                 for j in range(0, 4):
@@ -123,20 +124,20 @@ def move(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"]):
                     if(BOARD[j][i] == 0):
                         continue
 
-                    # swipe to up if upper square is empty
+                    # swipe to right if upper square is empty
                     if(BOARD[j][i+1] == 0):
                         BOARD[j][i+1] = BOARD[j][i]
                         BOARD[j][i] = 0
 
                     # merge same values
-                    if(not (BOARD[j][i+1] == 0) and BOARD[j][i+1] == BOARD[j][i] and updatedSquares[j][i+1] == 0 and updatedSquares[i][j] == 0):
+                    if(not (BOARD[j][i+1] == 0) and BOARD[j][i+1] == BOARD[j][i] and updatedSquares[j][i+1] == 0 and updatedSquares[j][i] == 0):
                         BOARD[j][i+1] = BOARD[j][i+1] * 2
                         SCORE = SCORE + BOARD[j][i+1]
                         BOARD[j][i] = 0
                         updatedSquares[j][i+1] = 1
-                        updatedSquares[i][j] = 1
+                        updatedSquares[j][i] = 1
 
-    placeRandomSquare()
+    placeRandomSquare(BOARD)
     print("SCORE: " + str(SCORE))
 
 
@@ -147,15 +148,105 @@ def printCurrentStatus():
         print("\n")
 
 
-# initBoard()
-# printCurrentStatus()
-# move("UP")
-# printCurrentStatus()
-# move("UP")
-# printCurrentStatus()
-# move("DOWN")
-# printCurrentStatus()
-# move("LEFT")
-# printCurrentStatus()
-# move("RIGHT")
-# printCurrentStatus()
+def getBoard():
+    return BOARD
+
+
+def getScore():
+    return SCORE
+
+
+def testMove(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"], boardArg):
+    NEW_BOARD = copy.deepcopy(boardArg)
+    NEW_SCORE = 0
+    updatedSquares = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+    if(direction == "UP"):
+        # swipe and merge all squares to up
+        for _ in range(3):
+            for i in range(1, 4):
+                for j in range(0, 4):
+                    # ignore empty squares
+                    if(NEW_BOARD[i][j] == 0):
+                        continue
+
+                    # swipe to up if upper square is empty
+                    if(NEW_BOARD[i-1][j] == 0):
+                        NEW_BOARD[i-1][j] = NEW_BOARD[i][j]
+                        NEW_BOARD[i][j] = 0
+
+                    # merge same values
+                    if(not (NEW_BOARD[i-1][j] == 0) and NEW_BOARD[i-1][j] == NEW_BOARD[i][j] and updatedSquares[i-1][j] == 0 and updatedSquares[i][j] == 0):
+                        NEW_BOARD[i-1][j] = NEW_BOARD[i-1][j] * 2
+                        NEW_SCORE = NEW_SCORE + NEW_BOARD[i-1][j]
+                        NEW_BOARD[i][j] = 0
+                        updatedSquares[i-1][j] = 1
+                        updatedSquares[i][j] = 1
+
+    elif(direction == "DOWN"):
+        # swipe and merge all squares to down
+        for _ in range(3):
+            for i in reversed(range(0, 3)):
+                for j in range(0, 4):
+                    # ignore empty squares
+                    if(NEW_BOARD[i][j] == 0):
+                        continue
+
+                    # swipe to down if upper square is empty
+                    if(NEW_BOARD[i+1][j] == 0):
+                        NEW_BOARD[i+1][j] = NEW_BOARD[i][j]
+                        NEW_BOARD[i][j] = 0
+
+                    # merge same values
+                    if(not (NEW_BOARD[i+1][j] == 0) and NEW_BOARD[i+1][j] == NEW_BOARD[i][j] and updatedSquares[i+1][j] == 0 and updatedSquares[i][j] == 0):
+                        NEW_BOARD[i+1][j] = NEW_BOARD[i+1][j] * 2
+                        NEW_SCORE = NEW_SCORE + NEW_BOARD[i+1][j]
+                        NEW_BOARD[i][j] = 0
+                        updatedSquares[i+1][j] = 1
+                        updatedSquares[i][j] = 1
+
+    elif(direction == "LEFT"):
+        # swipe and merge all squares to left
+        for _ in range(3):
+            for i in range(1, 4):
+                for j in range(0, 4):
+                    # ignore empty squares
+                    if(NEW_BOARD[j][i] == 0):
+                        continue
+
+                    # swipe to left if upper square is empty
+                    if(NEW_BOARD[j][i-1] == 0):
+                        NEW_BOARD[j][i-1] = NEW_BOARD[j][i]
+                        NEW_BOARD[j][i] = 0
+
+                    # merge same values
+                    if(not (NEW_BOARD[j][i-1] == 0) and NEW_BOARD[j][i-1] == NEW_BOARD[j][i] and updatedSquares[j][i-1] == 0 and updatedSquares[j][i] == 0):
+                        NEW_BOARD[j][i-1] = NEW_BOARD[j][i-1] * 2
+                        NEW_SCORE = NEW_SCORE + NEW_BOARD[j][i-1]
+                        NEW_BOARD[j][i] = 0
+                        updatedSquares[j][i-1] = 1
+                        updatedSquares[j][i] = 1
+
+    elif(direction == "RIGHT"):
+        # swipe and merge all squares to right
+        for _ in range(3):
+            for i in reversed(range(0, 3)):
+                for j in range(0, 4):
+                    # ignore empty squares
+                    if(NEW_BOARD[j][i] == 0):
+                        continue
+
+                    # swipe to right if upper square is empty
+                    if(NEW_BOARD[j][i+1] == 0):
+                        NEW_BOARD[j][i+1] = NEW_BOARD[j][i]
+                        NEW_BOARD[j][i] = 0
+
+                    # merge same values
+                    if(not (NEW_BOARD[j][i+1] == 0) and NEW_BOARD[j][i+1] == NEW_BOARD[j][i] and updatedSquares[j][i+1] == 0 and updatedSquares[j][i] == 0):
+                        NEW_BOARD[j][i+1] = NEW_BOARD[j][i+1] * 2
+                        NEW_SCORE = NEW_SCORE + NEW_BOARD[j][i+1]
+                        NEW_BOARD[j][i] = 0
+                        updatedSquares[j][i+1] = 1
+                        updatedSquares[j][i] = 1
+    global SCORE
+    NEW_SCORE = NEW_SCORE + SCORE
+    return [NEW_BOARD, NEW_SCORE]

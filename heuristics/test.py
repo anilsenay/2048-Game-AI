@@ -7,8 +7,8 @@ from heuristic_4 import heuristic4
 print(heuristic1(BOARDS[3]))
 print(heuristic1(BOARDS[2]))
 
-print(heuristic3(BOARDS[7]))
-print(heuristic3(BOARDS[8]))
+print(heuristic2(BOARDS[7]))
+print(heuristic2(BOARDS[8]))
 
 print(heuristic3(BOARDS[9]))
 print(heuristic3(BOARDS[10]))
