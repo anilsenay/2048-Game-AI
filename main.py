@@ -4,10 +4,10 @@ from game_2048 import getBoard, initBoard, printCurrentStatus, move, isGameOver,
 initBoard()
 printCurrentStatus()
 
-setHeuristic(4)
+setHeuristic(5)
 
 while(not isGameOver()):
     currentBoard = getBoard()
-    decision = maxChance(currentBoard, 2)
+    decision = maxChance(currentBoard, 3)
     move(decision)
     printCurrentStatus()

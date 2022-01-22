@@ -3,6 +3,7 @@ from heuristics.heuristic_1 import heuristic1
 from heuristics.heuristic_2 import heuristic2
 from heuristics.heuristic_3 import heuristic3
 from heuristics.heuristic_4 import heuristic4
+from heuristics.heuristic_5 import heuristic5
 
 import copy
 
@@ -21,6 +22,8 @@ def setHeuristic(number):
         heuristic = heuristic3
     if(number == 4):
         heuristic = heuristic4
+    if(number == 5):
+        heuristic = heuristic5
 
 
 def maxChance(state, ply=1):
