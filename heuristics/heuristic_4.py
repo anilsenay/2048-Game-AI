@@ -1,7 +1,7 @@
 from math import floor
 
 
-def heuristic5(BOARD):
+def heuristic4(BOARD):
     score = 0
     for power in reversed(range(0, 16)):
         i = floor(4 - ((power + 1) / 4))
