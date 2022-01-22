@@ -160,6 +160,7 @@ def testMove(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"], boardArg):
     NEW_BOARD = copy.deepcopy(boardArg)
     NEW_SCORE = 0
     updatedSquares = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+    updateCount = 0
     if(direction == "UP"):
         # swipe and merge all squares to up
         for _ in range(3):
@@ -168,7 +169,7 @@ def testMove(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"], boardArg):
                     # ignore empty squares
                     if(NEW_BOARD[i][j] == 0):
                         continue
-
+                    updateCount = updateCount + 1
                     # swipe to up if upper square is empty
                     if(NEW_BOARD[i-1][j] == 0):
                         NEW_BOARD[i-1][j] = NEW_BOARD[i][j]
@@ -190,7 +191,7 @@ def testMove(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"], boardArg):
                     # ignore empty squares
                     if(NEW_BOARD[i][j] == 0):
                         continue
-
+                    updateCount = updateCount + 1
                     # swipe to down if upper square is empty
                     if(NEW_BOARD[i+1][j] == 0):
                         NEW_BOARD[i+1][j] = NEW_BOARD[i][j]
@@ -212,7 +213,7 @@ def testMove(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"], boardArg):
                     # ignore empty squares
                     if(NEW_BOARD[j][i] == 0):
                         continue
-
+                    updateCount = updateCount + 1
                     # swipe to left if upper square is empty
                     if(NEW_BOARD[j][i-1] == 0):
                         NEW_BOARD[j][i-1] = NEW_BOARD[j][i]
@@ -234,7 +235,7 @@ def testMove(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"], boardArg):
                     # ignore empty squares
                     if(NEW_BOARD[j][i] == 0):
                         continue
-
+                    updateCount = updateCount + 1
                     # swipe to right if upper square is empty
                     if(NEW_BOARD[j][i+1] == 0):
                         NEW_BOARD[j][i+1] = NEW_BOARD[j][i]
@@ -247,6 +248,10 @@ def testMove(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"], boardArg):
                         NEW_BOARD[j][i] = 0
                         updatedSquares[j][i+1] = 1
                         updatedSquares[j][i] = 1
+
     global SCORE
     NEW_SCORE = NEW_SCORE + SCORE
+
+    if(updateCount == 0):
+        return [None, -float('inf')]
     return [NEW_BOARD, NEW_SCORE]

@@ -33,6 +33,11 @@ def max(state, ply=1):
     selectedDirection = None
     for direction in directions:
         [newBoard, newScore] = testMove(direction, state)
+
+        # prunning
+        if(newBoard == None):
+            return [newScore, None]
+
         resultChance = chance(newBoard, ply)
         if(resultChance > maxScore):
             maxScore = resultChance
