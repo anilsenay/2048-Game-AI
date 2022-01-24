@@ -15,19 +15,19 @@ def calculateCorner(BOARD, x: int, y: int):
     if x == 0 and y == 3:
         while (x != 4):
             while (y != -1):
-                sum = sum + BOARD[x][y]**(7-(x+y))
+                sum = sum + BOARD[x][y]**(4 + (y-x))
                 y = y - 1
             x = x + 1
     if x == 3 and y == 0:
         while (x != -1):
             while (y != 4):
-                sum = sum + BOARD[x][y]**(7-(x+y))
+                sum = sum + BOARD[x][y]**(4 + (x-y))
                 y = y + 1
             x = x - 1
     if x == 3 and y == 3:
         while (x != -1):
             while (y != -1):
-                sum = sum + BOARD[x][y]**(7-(x+y))
+                sum = sum + BOARD[x][y]**(1+(x+y))
                 y = y - 1
             x = x - 1
     return sum

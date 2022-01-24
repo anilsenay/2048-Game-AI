@@ -1,3 +1,4 @@
+from random import randint
 from game_2048 import testMove
 from heuristics.heuristic_1 import heuristic1
 from heuristics.heuristic_2 import heuristic2
@@ -39,12 +40,15 @@ def max(state, ply=1):
 
         # prunning
         if(newBoard == None):
-            return [newScore, None]
+            continue
 
         resultChance = chance(newBoard, ply)
+
         if(resultChance > maxScore):
             maxScore = resultChance
             selectedDirection = direction
+    if(selectedDirection == None):
+        return [maxScore, directions[randint(0, 3)]]
 
     return [maxScore, selectedDirection]
 

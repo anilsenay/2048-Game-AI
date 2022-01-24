@@ -1,6 +1,5 @@
 import copy
 from random import randint
-from typing import Literal
 
 
 BOARD = None
@@ -46,7 +45,7 @@ def isGameOver():
     return True
 
 
-def move(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"]):
+def move(direction):
     global SCORE
     updatedSquares = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
     if(direction == "UP"):
@@ -156,7 +155,7 @@ def getScore():
     return SCORE
 
 
-def testMove(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"], boardArg):
+def testMove(direction, boardArg):
     NEW_BOARD = copy.deepcopy(boardArg)
     NEW_SCORE = 0
     updatedSquares = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
@@ -169,11 +168,12 @@ def testMove(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"], boardArg):
                     # ignore empty squares
                     if(NEW_BOARD[i][j] == 0):
                         continue
-                    updateCount = updateCount + 1
+
                     # swipe to up if upper square is empty
                     if(NEW_BOARD[i-1][j] == 0):
                         NEW_BOARD[i-1][j] = NEW_BOARD[i][j]
                         NEW_BOARD[i][j] = 0
+                        updateCount = updateCount + 1
 
                     # merge same values
                     if(not (NEW_BOARD[i-1][j] == 0) and NEW_BOARD[i-1][j] == NEW_BOARD[i][j] and updatedSquares[i-1][j] == 0 and updatedSquares[i][j] == 0):
@@ -182,6 +182,7 @@ def testMove(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"], boardArg):
                         NEW_BOARD[i][j] = 0
                         updatedSquares[i-1][j] = 1
                         updatedSquares[i][j] = 1
+                        updateCount = updateCount + 1
 
     elif(direction == "DOWN"):
         # swipe and merge all squares to down
@@ -191,11 +192,12 @@ def testMove(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"], boardArg):
                     # ignore empty squares
                     if(NEW_BOARD[i][j] == 0):
                         continue
-                    updateCount = updateCount + 1
+
                     # swipe to down if upper square is empty
                     if(NEW_BOARD[i+1][j] == 0):
                         NEW_BOARD[i+1][j] = NEW_BOARD[i][j]
                         NEW_BOARD[i][j] = 0
+                        updateCount = updateCount + 1
 
                     # merge same values
                     if(not (NEW_BOARD[i+1][j] == 0) and NEW_BOARD[i+1][j] == NEW_BOARD[i][j] and updatedSquares[i+1][j] == 0 and updatedSquares[i][j] == 0):
@@ -204,6 +206,7 @@ def testMove(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"], boardArg):
                         NEW_BOARD[i][j] = 0
                         updatedSquares[i+1][j] = 1
                         updatedSquares[i][j] = 1
+                        updateCount = updateCount + 1
 
     elif(direction == "LEFT"):
         # swipe and merge all squares to left
@@ -213,11 +216,12 @@ def testMove(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"], boardArg):
                     # ignore empty squares
                     if(NEW_BOARD[j][i] == 0):
                         continue
-                    updateCount = updateCount + 1
+
                     # swipe to left if upper square is empty
                     if(NEW_BOARD[j][i-1] == 0):
                         NEW_BOARD[j][i-1] = NEW_BOARD[j][i]
                         NEW_BOARD[j][i] = 0
+                        updateCount = updateCount + 1
 
                     # merge same values
                     if(not (NEW_BOARD[j][i-1] == 0) and NEW_BOARD[j][i-1] == NEW_BOARD[j][i] and updatedSquares[j][i-1] == 0 and updatedSquares[j][i] == 0):
@@ -226,6 +230,7 @@ def testMove(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"], boardArg):
                         NEW_BOARD[j][i] = 0
                         updatedSquares[j][i-1] = 1
                         updatedSquares[j][i] = 1
+                        updateCount = updateCount + 1
 
     elif(direction == "RIGHT"):
         # swipe and merge all squares to right
@@ -235,11 +240,11 @@ def testMove(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"], boardArg):
                     # ignore empty squares
                     if(NEW_BOARD[j][i] == 0):
                         continue
-                    updateCount = updateCount + 1
                     # swipe to right if upper square is empty
                     if(NEW_BOARD[j][i+1] == 0):
                         NEW_BOARD[j][i+1] = NEW_BOARD[j][i]
                         NEW_BOARD[j][i] = 0
+                        updateCount = updateCount + 1
 
                     # merge same values
                     if(not (NEW_BOARD[j][i+1] == 0) and NEW_BOARD[j][i+1] == NEW_BOARD[j][i] and updatedSquares[j][i+1] == 0 and updatedSquares[j][i] == 0):
@@ -248,6 +253,7 @@ def testMove(direction: Literal["UP", "DOWN", "LEFT", "RIGHT"], boardArg):
                         NEW_BOARD[j][i] = 0
                         updatedSquares[j][i+1] = 1
                         updatedSquares[j][i] = 1
+                        updateCount = updateCount + 1
 
     global SCORE
     NEW_SCORE = NEW_SCORE + SCORE
